@@ -4,7 +4,7 @@ import "@styles/index.css";
 import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import DefaultLayout from "@/layout/DefaultLayout";
-import Header from "@/layout/Header";
+import { ChakraProvider } from "@chakra-ui/react";
 
 export const metadata: Metadata = {
   title: "추석 게임 🧀",
@@ -16,10 +16,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html>
       <link rel="icon" href="/favicon/favicon.ico" />
       <body className="flex-col-screen items-center">
-        <DefaultLayout>
-          <Header hasLogo={true} />
-          {children}
-        </DefaultLayout>
+        <ChakraProvider>
+          <DefaultLayout>{children}</DefaultLayout>
+        </ChakraProvider>
       </body>
     </html>
   );

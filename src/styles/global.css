@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flex-col-full {
+  @apply flex flex-col flex-1;
+}
+
+.flex-col-screen {
+  @apply flex flex-col h-screen;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}

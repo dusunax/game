@@ -9,6 +9,7 @@ export interface Bodies {
   h: number;
   option?: Record<string, unknown>;
   level: number;
+  render?: any;
 }
 
 export interface GeometryContant {

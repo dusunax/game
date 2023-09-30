@@ -30,11 +30,6 @@ export default function UseMatter(
       const render = Render.create({
         element: ref.current,
         engine: engine,
-        options: {
-          height: 600,
-          width: 800,
-          wireframes: false,
-        },
       });
 
       const result = placeObjectOnePyramid(600, 390, 5, CONSTANTS[level - 1]);

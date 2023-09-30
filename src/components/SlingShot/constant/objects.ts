@@ -10,9 +10,6 @@ export const GROUNDS: Bodies[] = [
     w: 810,
     h: 60,
     option: { isStatic: true },
-    render: {
-      fillStyle: "rgba(255, 255, 255, 0.5)",
-    },
   },
   {
     name: "ground",

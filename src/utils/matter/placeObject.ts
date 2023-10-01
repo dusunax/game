@@ -20,11 +20,12 @@ export function placeObjectOnePyramid(
       const posY = y - i * yOffset;
       objects.push({
         name: object.name,
-        x: posX,
-        y: posY,
+        posX: posX,
+        posY: posY,
         w,
         h,
         type: object.type,
+        level: object.level,
       });
     }
   }

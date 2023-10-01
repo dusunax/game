@@ -3,8 +3,8 @@ type BodiesType = "rectangle" | "circle";
 export interface Bodies {
   name: string;
   type: BodiesType;
-  x: number;
-  y: number;
+  posX: number;
+  posY: number;
   w: number;
   h: number;
   option?: Record<string, unknown>;
@@ -15,4 +15,5 @@ export interface GeometryContant {
   name: string;
   size: number[];
   type: BodiesType;
+  level: number;
 }

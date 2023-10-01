@@ -26,6 +26,7 @@ export default function UseMatter(
     while (element && element.firstChild) {
       element.removeChild(element.firstChild);
     }
+    if (!level) return;
 
     // setup
     const newWorldObjects = [...GROUNDS, BIRDS[level - 1]];

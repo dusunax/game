@@ -1,8 +1,8 @@
 // @ts-ignore
 import Matter from "matter-js";
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 
-import { BIRDS, GROUNDS } from "../constant/objects";
+import { BIRDS, GROUNDS, LEVEL_BLOCKS } from "../constant/objects";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -13,20 +13,26 @@ const Engine = Matter.Engine,
 export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
-  const level = 1;
+  const [level, setLevel] = useState(1);
   let birdBody: any;
   let slingData: any;
-  const worldObjects = [...GROUNDS, BIRDS[0]];
 
   // ----------------------------------------------------------------
   // useEffect
   // ----------------------------------------------------------------
   useEffect(() => {
-    const len = ref.current?.childNodes.length || 0;
-    if (len > 0) return;
+    // ref 초기화
+    const element = ref.current as HTMLDivElement;
+    while (element && element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
 
     // setup
+    const newWorldObjects = [...GROUNDS, BIRDS[level - 1]];
+
     const engine = Engine.create();
+    Matter.Engine.clear(engine);
+
     engine.gravity = { x: 0, y: 1, scale: 0.0005 };
 
     const render = Render.create({
@@ -39,7 +45,7 @@ export default function UseMatter(
 
     const result: any[] = [];
 
-    const print = [...result, ...worldObjects].map((b) => {
+    const print = [...result, ...newWorldObjects].map((b) => {
       let newBody;
       if (b.type === "circle") {
         newBody = Bodies.circle(b.posX, b.posY, b.w, b.option);
@@ -53,45 +59,6 @@ export default function UseMatter(
       }
       return newBody;
     });
-
-    // 피라미드
-    // let composite = Matter.Composites.pyramid(
-    //   500,
-    //   200,
-    //   10,
-    //   6,
-    //   0,
-    //   0,
-    //   function (x: number, y: number) {
-    //     return Matter.Bodies.rectangle(x, y, 20, 20);
-    //   }
-    // );
-
-    // 젠가
-    let composite = Matter.Composites.stack(
-      500,
-      50,
-      10,
-      20,
-      0,
-      0,
-      function (x: number, y: number) {
-        return Matter.Bodies.rectangle(x, y, 20, 20);
-      }
-    );
-
-    // 세로 스택
-    // let composite = Matter.Composites.stack(
-    //   500,
-    //   100,
-    //   1,
-    //   3,
-    //   0,
-    //   0,
-    //   function (x: number, y: number) {
-    //     return Matter.Bodies.rectangle(x, y, 20, 100);
-    //   }
-    // );
 
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
@@ -108,14 +75,14 @@ export default function UseMatter(
       }
     });
 
-    Composite.add(engine.world, composite);
+    Composite.add(engine.world, getLevelBlock(level));
     Composite.add(engine.world, mouseConstraint);
     Composite.add(engine.world, print); // 예전에는 world
     Render.run(render);
 
     const runner = Runner.create();
     Runner.run(runner, engine);
-  }, []);
+  }, [level]);
 
   // ----------------------------------------------------------------
   // 이벤트 핸들러 여기 작성
@@ -142,5 +109,9 @@ export default function UseMatter(
     return sling;
   };
 
-  return {};
+  const getLevelBlock = (level: number) => {
+    return LEVEL_BLOCKS.filter((e) => e.level === level)[0].getBlocks;
+  };
+
+  return { level, setLevel };
 }

@@ -1,3 +1,5 @@
+// @ts-ignore
+import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
 
 export const GROUNDS: Bodies[] = [
@@ -9,7 +11,7 @@ export const GROUNDS: Bodies[] = [
     posY: 600,
     w: 810,
     h: 60,
-    option: { isStatic: true },
+    option: { isStatic: true, render: { fillStyle: "brown" } },
   },
   {
     name: "ground",
@@ -19,13 +21,13 @@ export const GROUNDS: Bodies[] = [
     posY: 450,
     w: 300,
     h: 10,
-    option: { isStatic: true },
+    option: { isStatic: true, render: { fillStyle: "brown" } },
   },
 ];
 
 export const BIRDS: Bodies[] = [
   {
-    name: "birdA",
+    name: "bird1",
     type: "circle",
     level: 1,
     posX: 150,
@@ -38,7 +40,7 @@ export const BIRDS: Bodies[] = [
     },
   },
   {
-    name: "birdB",
+    name: "bird2",
     type: "circle",
     level: 1,
     posX: 150,
@@ -47,7 +49,7 @@ export const BIRDS: Bodies[] = [
     h: 10,
   },
   {
-    name: "birdC",
+    name: "bird3",
     type: "circle",
     level: 1,
     posX: 150,
@@ -61,8 +63,53 @@ export const BIRDS: Bodies[] = [
   },
 ];
 
-export const CONSTANTS: GeometryContant[] = [
-  { name: "오브젝트1", size: [20, 20], type: "rectangle", level: 1 },
-  { name: "오브젝트2", size: [40, 40], type: "rectangle", level: 1 },
-  { name: "오브젝트3", size: [50, 50], type: "rectangle", level: 1 },
+export const LEVEL_BLOCKS = [
+  {
+    level: 1,
+    getBlocks: Matter.Composites.stack(
+      500,
+      100,
+      1,
+      3,
+      0,
+      0,
+      function (x: number, y: number) {
+        return Matter.Bodies.rectangle(x, y, 20, 100);
+      }
+    ),
+  },
+  {
+    level: 2,
+    getBlocks: Matter.Composites.stack(
+      500,
+      50,
+      10,
+      20,
+      0,
+      0,
+      function (x: number, y: number) {
+        return Matter.Bodies.rectangle(x, y, 20, 20);
+      }
+    ),
+  },
+  {
+    level: 3,
+    getBlocks: Matter.Composites.pyramid(
+      500,
+      200,
+      10,
+      6,
+      0,
+      0,
+      function (x: number, y: number) {
+        return Matter.Bodies.rectangle(x, y, 20, 20);
+      }
+    ),
+  },
+];
+
+export const BLOCK: GeometryContant[] = [
+  { name: "block1", size: [20, 20], type: "rectangle", level: 1 },
+  { name: "block2", size: [40, 40], type: "rectangle", level: 1 },
+  { name: "block3", size: [50, 50], type: "rectangle", level: 1 },
 ];

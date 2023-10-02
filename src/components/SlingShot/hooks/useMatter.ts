@@ -13,7 +13,7 @@ const Engine = Matter.Engine,
 export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(0);
   let birdBody: any;
   let slingData: any;
 
@@ -21,12 +21,13 @@ export default function UseMatter(
   // useEffect
   // ----------------------------------------------------------------
   useEffect(() => {
+    if (!level) return;
+
     // ref 초기화
     const element = ref.current as HTMLDivElement;
     while (element && element.firstChild) {
       element.removeChild(element.firstChild);
     }
-    if (!level) return;
 
     // setup
     const newWorldObjects = [...GROUNDS, BIRDS[level - 1]];

@@ -20,7 +20,7 @@ export const GROUNDS: Bodies[] = [
     posX: 600,
     posY: 450,
     w: 300,
-    h: 10,
+    h: 20,
     option: { isStatic: true, render: { fillStyle: "brown" } },
   },
 ];
@@ -36,7 +36,7 @@ export const BIRDS: Bodies[] = [
     h: 20,
     option: {
       density: 0.2,
-      frictionAir: 0.001,
+      frictionAir: 0.06,
     },
   },
   {

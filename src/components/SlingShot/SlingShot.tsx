@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useRef } from "react";
 import UseMatter from "./hooks/useMatter";
-import { Button } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +28,16 @@ export default function SlingShot() {
           ))}
       </div>
 
-      <div id="render" className="min-h-[600px]" ref={renderRef} />
+      <div
+        id="render"
+        className="w-[800px] min-h-[600px] bg-slate-200"
+        ref={renderRef}
+      >
+        <div className="w-full h-full flex-center flex-col">
+          <Text fontSize={"2xl"}>송편 게임</Text>
+          <Text fontSize={"xl"}>게임 만드는 중</Text>
+        </div>
+      </div>
     </>
   );
 }

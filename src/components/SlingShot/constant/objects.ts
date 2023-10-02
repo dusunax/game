@@ -69,6 +69,19 @@ export const BIRDS: Bodies[] = [
       frictionAir: 0.05,
     },
   },
+  {
+    name: "bird4",
+    type: "circle",
+    level: 1,
+    posX: 150,
+    posY: 200,
+    w: 40,
+    h: 40,
+    option: {
+      density: 1,
+      frictionAir: 0.05,
+    },
+  },
 ];
 
 export const LEVEL_BLOCKS = [
@@ -114,6 +127,20 @@ export const LEVEL_BLOCKS = [
       }
     ),
   },
+  {
+    level: 4,
+    getBlocks: (function () {
+      const newComposite = Matter.Composite.create();
+
+      const bodies = [];
+      bodies.push(..._createStand(600, 200, 50));
+      bodies.push(..._createStand(400, 400, 50));
+      bodies.push(..._createStand(750, 500, 50));
+
+      Matter.Composite.add(newComposite, bodies);
+      return newComposite;
+    })(),
+  },
 ];
 
 export const BLOCK: GeometryContant[] = [
@@ -121,3 +148,15 @@ export const BLOCK: GeometryContant[] = [
   { name: "block2", size: [40, 40], type: "rectangle", level: 1 },
   { name: "block3", size: [50, 50], type: "rectangle", level: 1 },
 ];
+
+function _createStand(x: number, y: number, h: number) {
+  const opt = { density: 0.0025 };
+
+  const bodies = [
+    Matter.Bodies.rectangle(x, y, 100, 30, opt),
+    Matter.Bodies.rectangle(x, y, 20, h, opt),
+    Matter.Bodies.circle(x, y - 50, 20, opt),
+  ];
+
+  return bodies;
+}

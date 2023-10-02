@@ -3,7 +3,7 @@ import Matter from "matter-js";
 import { MutableRefObject, useEffect, useState } from "react";
 
 import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
-import { Bodies } from "@/interface/matter";
+import { type Bodies as BodiesType } from "@/interface/matter";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -14,16 +14,20 @@ const Engine = Matter.Engine,
 export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
-  // const [level, setLevel] = useState(0);
-  const [level, setLevel] = useState(1);
-  const [life, setLife] = useState(3);
   let isFire = false;
+  const fullLife = 3;
+  // const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(4);
+  const [life, setLife] = useState(fullLife);
+  const [isGameover, setIsGameOver] = useState(false);
 
   // ----------------------------------------------------------------
   // useEffect
   // ----------------------------------------------------------------
   useEffect(() => {
-    if (!level) return;
+    if (!level || !life) {
+      return gameOver();
+    }
 
     // ref 초기화
     const element = ref.current as HTMLDivElement;
@@ -62,13 +66,31 @@ export default function UseMatter(
     const grounds = GROUNDS.map((e) => getBodies(e));
     const sling = Matter.Constraint.create({
       pointA: {
-        x: BIRDS[0].posX,
-        y: BIRDS[0].posY,
+        x: BIRDS[0]?.posX,
+        y: BIRDS[0]?.posY,
       },
-      bodyB: birdsLeft[0],
+      bodyB: birdsLeft[0] || null,
       stiffness: 0.2,
       length: 20,
     });
+
+    const newComposite = Matter.Composite.create();
+    const bodies = [];
+    bodies.push(
+      Matter.Bodies.fromVertices(
+        200,
+        550,
+        [
+          { x: 0, y: 0 },
+          { x: 0, y: -50 },
+          { x: 500, y: -50 },
+          { x: 550, y: 0 },
+          { x: 600, y: 0 },
+        ],
+        { isStatic: true, render: { fillStyle: "red" } }
+      )
+    );
+    Matter.Composite.add(newComposite, bodies);
 
     const worldObjects = [
       ...grounds,
@@ -76,6 +98,7 @@ export default function UseMatter(
       sling,
       getLevelBlock(level),
       setTarget(600, 0, level),
+      newComposite,
     ];
 
     // mouse interaction
@@ -93,7 +116,10 @@ export default function UseMatter(
     });
 
     Matter.Events.on(engine, "afterUpdate", () => {
-      if (!life || birdsLeft.length === 0) return;
+      if (!life || birdsLeft.length === 0) {
+        return gameOver();
+      }
+
       if (isFire) {
         birdsLeft.shift();
         setLife(birdsLeft.length);
@@ -101,9 +127,10 @@ export default function UseMatter(
         const newBird = birdsLeft[0];
         if (!newBird) {
           sling.bodyB = null;
-          Composite.remove(engine.world, sling);
+          // Composite.remove(engine.world, sling);
         } else {
           sling.bodyB = newBird;
+
           setTimeout(() => {
             Composite.add(engine.world, newBird);
           }, 500);
@@ -125,7 +152,7 @@ export default function UseMatter(
     return LEVEL_BLOCKS.filter((e) => e.level === level)[0].getBlocks;
   };
 
-  function getBodies(b: Bodies) {
+  function getBodies(b: BodiesType) {
     let newBody;
 
     if (b.type === "circle") {
@@ -137,5 +164,17 @@ export default function UseMatter(
     return newBody;
   }
 
-  return { level, setLevel, life };
+  function gameOver() {
+    setIsGameOver(true);
+    setLife(0);
+    setLevel(0);
+  }
+
+  function gameStart() {
+    setIsGameOver(false);
+    setLife(fullLife);
+    setLevel(1);
+  }
+
+  return { level, setLevel, life, isGameover, gameOver, gameStart };
 }

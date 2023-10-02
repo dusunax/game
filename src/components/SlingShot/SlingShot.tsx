@@ -2,14 +2,19 @@
 import { Dispatch, SetStateAction, useRef } from "react";
 import UseMatter from "./hooks/useMatter";
 import { Button, Text } from "@chakra-ui/react";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
-  const { level, setLevel } = UseMatter(renderRef);
+  const { level, setLevel, life } = UseMatter(renderRef);
 
   return (
     <>
       <div className="flex gap-4 my-4">
+        <div className="flex items-center gap-2 text-red-500">
+          <BsHeartFill />
+          {life}
+        </div>
         {level === 0 ? (
           <StartButton level={level} setLevel={setLevel} />
         ) : (

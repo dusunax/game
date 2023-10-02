@@ -3,6 +3,7 @@ import Matter from "matter-js";
 import { MutableRefObject, useEffect, useState } from "react";
 
 import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
+import { Bodies } from "@/interface/matter";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -15,8 +16,8 @@ export default function UseMatter(
 ) {
   // const [level, setLevel] = useState(0);
   const [level, setLevel] = useState(1);
-  let birdBody: any;
-  let slingData: any;
+  const [life, setLife] = useState(3);
+  let isFire = false;
 
   // ----------------------------------------------------------------
   // useEffect
@@ -30,9 +31,7 @@ export default function UseMatter(
       element.removeChild(element.firstChild);
     }
 
-    // setup
-    const newWorldObjects = [...GROUNDS, BIRDS[level - 1]];
-
+    // setup engine & renderer
     const engine = Engine.create();
     Matter.Engine.clear(engine);
 
@@ -43,82 +42,100 @@ export default function UseMatter(
       engine: engine,
       options: {
         wireframes: false,
+        width: 800,
+        height: 600,
+        showAngleIndicator: true,
       },
     });
 
-    const result: any[] = [];
+    Render.run(render);
 
-    const print = [...result, ...newWorldObjects].map((b) => {
-      let newBody;
-      if (b.type === "circle") {
-        newBody = Bodies.circle(b.posX, b.posY, b.w, b.option);
-      } else {
-        newBody = Bodies.rectangle(b.posX, b.posY, b.w, b.h, b.option);
-      }
+    // setup runner
+    const runner = Runner.create();
+    Runner.run(runner, engine);
 
-      if (b.name.includes("bird")) {
-        birdBody = newBody;
-        slingData = setShooter(engine, b.posX, b.posY, newBody);
-      }
-      return newBody;
+    // bodies
+    const birdsLeft = new Array(life)
+      .fill("")
+      .map(() => getBodies(BIRDS[level - 1]));
+
+    const grounds = GROUNDS.map((e) => getBodies(e));
+    const sling = Matter.Constraint.create({
+      pointA: {
+        x: BIRDS[0].posX,
+        y: BIRDS[0].posY,
+      },
+      bodyB: birdsLeft[0],
+      stiffness: 0.2,
+      length: 20,
     });
 
+    const worldObjects = [
+      ...grounds,
+      birdsLeft[0],
+      sling,
+      getLevelBlock(level),
+      setTarget(600, 0, level),
+    ];
+
+    // mouse interaction
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
 
-    let isFire = false;
     Matter.Events.on(mouseConstraint, "enddrag", (e: any) => {
-      if (e.body === birdBody) isFire = true;
+      birdsLeft.map((bird) => {
+        if (!bird) return;
+
+        if (e.body === bird) {
+          isFire = true;
+        }
+      });
     });
 
     Matter.Events.on(engine, "afterUpdate", () => {
-      if (isFire && slingData) {
-        Composite.remove(engine.world, slingData, true);
-        slingData = null;
+      if (!life || birdsLeft.length === 0) return;
+      if (isFire) {
+        birdsLeft.shift();
+        setLife(birdsLeft.length);
+
+        const newBird = birdsLeft[0];
+        if (!newBird) {
+          sling.bodyB = null;
+          Composite.remove(engine.world, sling);
+        } else {
+          sling.bodyB = newBird;
+          setTimeout(() => {
+            Composite.add(engine.world, newBird);
+          }, 500);
+        }
+
+        isFire = false;
       }
     });
 
-    console.log(getLevelBlock(level));
-
-    Composite.add(engine.world, getLevelBlock(level));
-    Composite.add(engine.world, setTarget(600, 0, level));
+    // composite.add === world.add
+    Composite.add(engine.world, worldObjects);
     Composite.add(engine.world, mouseConstraint);
-    Composite.add(engine.world, print); // 예전에는 world
-
-    Render.run(render);
-
-    const runner = Runner.create();
-    Runner.run(runner, engine);
   }, [level]);
 
   // ----------------------------------------------------------------
   // 이벤트 핸들러 여기 작성
   // ----------------------------------------------------------------
-  const setShooter = (
-    engine: any,
-    x: number,
-    y: number,
-    body: any
-  ): { sling: any } => {
-    const options = {
-      pointA: {
-        x,
-        y,
-      },
-      bodyB: body,
-      stiffness: 0.2,
-      length: 20,
-    };
-
-    const sling = Matter.Constraint.create(options);
-    Composite.add(engine.world, sling);
-
-    return sling;
-  };
-
   const getLevelBlock = (level: number) => {
     return LEVEL_BLOCKS.filter((e) => e.level === level)[0].getBlocks;
   };
 
-  return { level, setLevel };
+  function getBodies(b: Bodies) {
+    let newBody;
+
+    if (b.type === "circle") {
+      newBody = Bodies.circle(b.posX, b.posY, b.w, b.option);
+    } else {
+      newBody = Bodies.rectangle(b.posX, b.posY, b.w, b.h, b.option);
+    }
+
+    return newBody;
+  }
+
+  return { level, setLevel, life };
 }

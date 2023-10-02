@@ -2,6 +2,15 @@
 import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
 
+export const TARGETS: GeometryContant[] = [
+  { name: "target1", radius: 20, type: "circle", level: 1 },
+  { name: "target2", radius: 10, type: "circle", level: 2 },
+];
+
+export const setTarget = function (x: number, y: number, level: number) {
+  return Matter.Bodies.circle(x, y, TARGETS[0].radius);
+};
+
 export const GROUNDS: Bodies[] = [
   {
     name: "globalGround",
@@ -19,7 +28,7 @@ export const GROUNDS: Bodies[] = [
     level: 1,
     posX: 600,
     posY: 450,
-    w: 300,
+    w: 200,
     h: 20,
     option: { isStatic: true, render: { fillStyle: "brown" } },
   },
@@ -36,7 +45,6 @@ export const BIRDS: Bodies[] = [
     h: 20,
     option: {
       density: 0.2,
-      frictionAir: 0.06,
     },
   },
   {
@@ -83,8 +91,8 @@ export const LEVEL_BLOCKS = [
     getBlocks: Matter.Composites.stack(
       500,
       50,
-      10,
-      20,
+      4,
+      15,
       0,
       0,
       function (x: number, y: number) {

@@ -13,7 +13,8 @@ export interface Bodies {
 
 export interface GeometryContant {
   name: string;
-  size: number[];
+  size?: number[];
+  radius?: number;
   type: BodiesType;
   level: number;
 }

@@ -2,7 +2,7 @@
 import Matter from "matter-js";
 import { MutableRefObject, useEffect, useState } from "react";
 
-import { BIRDS, GROUNDS, LEVEL_BLOCKS } from "../constant/objects";
+import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -13,7 +13,8 @@ const Engine = Matter.Engine,
 export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
-  const [level, setLevel] = useState(0);
+  // const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   let birdBody: any;
   let slingData: any;
 
@@ -77,9 +78,13 @@ export default function UseMatter(
       }
     });
 
+    console.log(getLevelBlock(level));
+
     Composite.add(engine.world, getLevelBlock(level));
+    Composite.add(engine.world, setTarget(600, 0, level));
     Composite.add(engine.world, mouseConstraint);
     Composite.add(engine.world, print); // 예전에는 world
+
     Render.run(render);
 
     const runner = Runner.create();

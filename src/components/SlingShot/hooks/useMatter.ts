@@ -175,6 +175,9 @@ export default function UseMatter(
               setLife(birdsLeft.length + 1);
             }, 1000);
           } else {
+            setScore((prevScore) => {
+              return prevScore + life * 300;
+            });
             gameWin();
           }
         }
@@ -250,6 +253,7 @@ export default function UseMatter(
 
   function gameWin() {
     alert("승리!");
+    setIsClear(true);
 
     setTimeout(() => {
       recodeScore({ isWin: true });
@@ -264,7 +268,6 @@ export default function UseMatter(
         "\n클리어 레벨: " +
         level
     );
-    setIsClear(true);
   }
 
   return {

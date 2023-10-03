@@ -257,22 +257,11 @@ export default function UseMatter(
   }
 
   function gameWin() {
-    alert("승리!");
     setIsClear(true);
 
     setTimeout(() => {
-      recodeScore({ isWin: true });
       gameEnd();
     }, 100);
-  }
-
-  function recodeScore({ isWin = false }: { isWin?: boolean }) {
-    alert(
-      "당신의 점수: " +
-        (isWin ? score + 500 : score) +
-        "\n클리어 레벨: " +
-        level
-    );
   }
 
   return {

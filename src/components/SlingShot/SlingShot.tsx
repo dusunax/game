@@ -1,7 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UseMatter from "./hooks/useMatter";
-import { Button, Tag, Text } from "@chakra-ui/react";
+import { Button, Tag, Text, useToast } from "@chakra-ui/react";
 import { BsHeartFill } from "react-icons/bs";
 import ScreenShotButton from "../Home/ScreenShotButton";
 import { useSearchParams } from "next/navigation";
@@ -26,8 +26,35 @@ export default function SlingShot() {
   const mode = params.get("mode");
   const [isHover, setIsHover] = useState(false);
 
+  const toast = useToast();
+  useEffect(() => {
+    if (!isClear) return;
+
+    toast({
+      title: "게임 클리어!",
+      status: "info",
+      duration: 3000, // 표시 시간 (밀리초)
+      isClosable: true,
+      position: "top",
+    });
+  }, [isClear]);
+
   return (
     <div className="w-full max-w-[1060px] min-h-[600px] relative">
+      <div className="flex justify-between item-end">
+        <div>
+          <div className="flex gap-2 text-xl px-1">
+            <Text fontWeight={"bold"}>송편 터뜨리기:</Text>
+            <Text>복 주머니를 날려서 송편을 떨어뜨리세요!</Text>
+          </div>
+          <div className="flex gap-2 text-xl px-1">
+            <Text fontSize={"xs"}>
+              7라운드 클리어 시, 고득점: 5000점 | 평균: 4000점 | 최저 3500점
+            </Text>
+          </div>
+        </div>
+        <ScreenShotButton />
+      </div>
       <div className="w-full flex justify-between gap-4 my-4">
         <div className="relative h-12 flex items-center gap-4 px-1">
           {!isGameover && (
@@ -43,8 +70,8 @@ export default function SlingShot() {
           <Tag className="flex items-center">
             레벨: {level ? level : "-"} / {finalLevel}
           </Tag>
-          <div className="flex items-center gap-3 text-red-500 absolute left-0 -bottom-8 translate-y-full pl-4">
-            {life > 0 &&
+          <div className="flex items-center gap-3 text-red-500 absolute left-0 -bottom-8 translate-y-full pl-4 z-30">
+            {life >= 0 &&
               Array(life)
                 .fill("")
                 .map((e, idx) => <BsHeartFill size={24} key={idx} />)}
@@ -59,7 +86,6 @@ export default function SlingShot() {
         </div>
 
         <div className="flex gap-4">
-          <ScreenShotButton />
           {mode === "dev" && level === 0 && isGameover && (
             <StartButton level={level} onClick={gameStart} />
           )}
@@ -81,7 +107,7 @@ export default function SlingShot() {
         </div>
       </div>
 
-      <div className="min-h-[648px]">
+      <div className="min-h-[648px] bg-gradient-to-t to-slate-200 from-white ">
         {level > 0 && (
           <>
             <div className="w-[1060px] min-h-[600px] relative">

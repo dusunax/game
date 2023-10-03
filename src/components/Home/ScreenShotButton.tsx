@@ -3,7 +3,7 @@ import { Button, useToast } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
 import { useState } from "react";
 
-export default function ScreenShotButton() {
+export default function ScreenShotButton({ size = "md" }: { size?: string }) {
   const [isShared, setIsShared] = useState(false);
   const toast = useToast();
   const bodyEl = document.querySelector("body") as HTMLElement;
@@ -34,7 +34,12 @@ export default function ScreenShotButton() {
 
   return (
     <div className="flex gap-2 justify-center items-center">
-      <Button colorScheme="linkedin" onClick={saveScreenshot}>
+      <Button
+        colorScheme="linkedin"
+        rounded={"xl"}
+        size={size}
+        onClick={saveScreenshot}
+      >
         {isShared ? "다운로드 완료" : "스크린샷 저장하기"}
       </Button>
     </div>

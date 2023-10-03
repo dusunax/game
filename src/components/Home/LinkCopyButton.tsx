@@ -2,7 +2,7 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function LinkCopyButton() {
+export default function LinkCopyButton({ size = "lg" }: { size?: string }) {
   const [isShared, setIsShared] = useState(false);
   const toast = useToast();
 
@@ -33,7 +33,7 @@ export default function LinkCopyButton() {
   return (
     <>
       <Button
-        size={"lg"}
+        size={size}
         colorScheme={isShared ? "twitter" : "linkedin"}
         onClick={linkCopy}
         rounded={"xl"}

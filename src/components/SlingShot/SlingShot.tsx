@@ -6,6 +6,7 @@ import { BsHeartFill } from "react-icons/bs";
 import ScreenShotButton from "../Home/ScreenShotButton";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import LinkCopyButton from "../Home/LinkCopyButton";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
@@ -164,13 +165,17 @@ export default function SlingShot() {
             {/* <Text fontSize={"5xl"}>{"level: " + level}</Text> */}
             <Text fontSize={"5xl"}>{"score: " + score}</Text>
 
-            <Text fontSize={"mg"} className="mt-10 animate-pulse">
-              게임을 다시 시작하려면 새로고침 해주세요
-            </Text>
-            <Text fontSize={"mg"} className="mt-5" colorScheme="gray">
+            <Text fontSize={"xs"} className="mt-5" colorScheme="gray">
               (점수 계산: 송편 = 각 500점, 솔잎 = 각 15점, 클리어 후 남은 기회 =
               각 300점)
             </Text>
+            <Text fontSize={"xl"} className="mt-5 animate-pulse">
+              게임을 다시 시작하려면 새로고침 해주세요
+            </Text>
+
+            <div className="flex gap-4 mt-6">
+              <LinkCopyButton size="md" />
+            </div>
           </div>
         )}
       </div>

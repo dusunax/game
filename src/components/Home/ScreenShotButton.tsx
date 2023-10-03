@@ -1,3 +1,4 @@
+"use client";
 import { Button, useToast } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
 import { useState } from "react";

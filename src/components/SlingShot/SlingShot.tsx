@@ -4,6 +4,7 @@ import UseMatter from "./hooks/useMatter";
 import { Button, Text } from "@chakra-ui/react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ScreenShotButton from "../Home/ScreenShotButton";
+import { useSearchParams } from "next/navigation";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
@@ -18,6 +19,8 @@ export default function SlingShot() {
     count,
     finalLevel,
   } = UseMatter(renderRef);
+  const params = useSearchParams();
+  const mode = params.get("mode");
 
   return (
     <div className="max-w-[1060px]">
@@ -34,9 +37,11 @@ export default function SlingShot() {
 
             {life === 0 && <BsHeart />}
           </div>
-          <div>
-            {score} : 하트 {count.heart}, 송편 {count.block}
-          </div>
+          {!isGameover && (
+            <div>
+              {score} : 하트 {count.heart}, 송편 {count.block}
+            </div>
+          )}
         </div>
         <div className="flex gap-4">
           <ScreenShotButton />
@@ -45,7 +50,8 @@ export default function SlingShot() {
           ) : (
             <EndButton level={level} onClick={gameOver} />
           )}
-          {level !== 0 &&
+          {mode === "dev" &&
+            level !== 0 &&
             !isGameover &&
             Array(finalLevel)
               .fill("")
@@ -72,7 +78,11 @@ export default function SlingShot() {
       {level === 0 && (
         <div className="w-[1060px] min-h-[600px] bg-slate-200 flex-center flex-col">
           <Text fontSize={"2xl"}>송편 게임</Text>
-          <Text fontSize={"xl"}>게임 만드는 중</Text>
+          <Text fontSize={"xl"}>
+            {isGameover
+              ? "score: " + score + "\n level: " + level
+              : "게임 만드는 중"}
+          </Text>
         </div>
       )}
     </div>

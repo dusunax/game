@@ -13,3 +13,21 @@
 .flex-center {
   @apply flex justify-center items-center;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s 1.2s ease-in-out forwards;
+}
+
+.delay-2s {
+  animation-delay: 2s !important;
+}

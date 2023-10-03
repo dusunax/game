@@ -31,7 +31,7 @@ export default function UseMatter(
   // ----------------------------------------------------------------
   useEffect(() => {
     if (!level || !life) {
-      return gameOver();
+      return gameEnd();
     }
 
     // ref 초기화
@@ -135,8 +135,13 @@ export default function UseMatter(
     });
 
     Matter.Events.on(engine, "afterUpdate", () => {
-      if (!life) {
-        return;
+      if (birdsLeft.length === 0 && life === -1) {
+        setTimeout(() => {
+          console.log(birdsLeft);
+          if (birdsLeft) return;
+
+          return gameEnd();
+        }, 2000);
       }
 
       const collisions = Matter.Detector.collisions(detector); // 충돌 감지 반복
@@ -172,7 +177,7 @@ export default function UseMatter(
           if (level < finalLevel) {
             setTimeout(() => {
               setLevel(level + 1);
-              setLife(birdsLeft.length + 1);
+              life === 0 ? setLife(1) : setLife(birdsLeft.length + 1);
             }, 1000);
           } else {
             setScore((prevScore) => {
@@ -239,16 +244,16 @@ export default function UseMatter(
     return newBody;
   }
 
-  function gameOver() {
-    setIsGameOver(true);
-    setLife(0);
-    setLevel(0);
-  }
-
   function gameStart() {
     setIsGameOver(false);
     setLife(fullLife);
     setLevel(1);
+  }
+
+  function gameEnd() {
+    setIsGameOver(true);
+    setLife(0);
+    setLevel(0);
   }
 
   function gameWin() {
@@ -257,7 +262,7 @@ export default function UseMatter(
 
     setTimeout(() => {
       recodeScore({ isWin: true });
-      gameOver();
+      gameEnd();
     }, 100);
   }
 
@@ -275,7 +280,7 @@ export default function UseMatter(
     setLevel,
     life,
     isGameover,
-    gameOver,
+    gameEnd,
     gameStart,
     score,
     heartCount,

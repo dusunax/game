@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useRef } from "react";
 import UseMatter from "./hooks/useMatter";
 import { Button, Text } from "@chakra-ui/react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import ScreenShotButton from "../Home/ScreenShotButton";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
@@ -15,6 +16,7 @@ export default function SlingShot() {
     gameStart,
     score,
     count,
+    finalLevel,
   } = UseMatter(renderRef);
 
   return (
@@ -37,6 +39,7 @@ export default function SlingShot() {
           </div>
         </div>
         <div className="flex gap-4">
+          <ScreenShotButton />
           {level === 0 && isGameover ? (
             <StartButton level={level} onClick={gameStart} />
           ) : (
@@ -44,15 +47,17 @@ export default function SlingShot() {
           )}
           {level !== 0 &&
             !isGameover &&
-            [1, 2, 3, 4, 5, 6, 7].map((e, idx) => (
-              <Button
-                key={idx}
-                onClick={() => setLevel(e)}
-                colorScheme={level === e ? "green" : "gray"}
-              >
-                {e}
-              </Button>
-            ))}
+            Array(finalLevel)
+              .fill("")
+              .map((e, idx) => (
+                <Button
+                  key={idx}
+                  onClick={() => setLevel(idx + 1)}
+                  colorScheme={level === idx + 1 ? "green" : "gray"}
+                >
+                  {idx + 1}
+                </Button>
+              ))}
         </div>
       </div>
 

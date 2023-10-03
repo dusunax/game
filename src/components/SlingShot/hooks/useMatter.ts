@@ -124,8 +124,6 @@ export default function UseMatter(
       target,
     ]);
 
-    console.log(setTarget(600, 0, level));
-
     // mouse interaction
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
@@ -157,7 +155,6 @@ export default function UseMatter(
           setCount({ ...count, block: count.block + 1 });
 
           const body = (bodyA.label = "object" ? bodyA : bodyB);
-          console.log(body);
 
           Composite.remove(engine.world, body);
         }
@@ -280,5 +277,6 @@ export default function UseMatter(
     gameStart,
     score,
     count,
+    finalLevel,
   };
 }

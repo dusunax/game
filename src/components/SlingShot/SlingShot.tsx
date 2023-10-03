@@ -106,7 +106,7 @@ export default function SlingShot() {
             {isClear ? "축하합니다!" : "송편 게임 끝!"}
           </Text>
           {isClear && <Tag colorScheme="linkedin">게임 클리어!</Tag>}
-          <img src="/img/player.svg" className="animate-spin" />
+          <img src="/img/player.svg" className="animate-spin" alt="game end!" />
 
           {isClear && <Text fontSize={"2xl"}>플레이해주셔서 감사합니다 🩷</Text>}
           {/* <Text fontSize={"5xl"}>{"level: " + level}</Text> */}

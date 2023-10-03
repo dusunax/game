@@ -24,8 +24,9 @@
   - 주제A: matter-js를 처음 사용하며 느낀 점
   - 주제B: 공부의 방향: 새로운 라이브러리를 배운다는 것과 기본 개념(canvas, 2d context)
 
-
-![image](https://github.com/dusunax/game/assets/94776135/9195f3f7-2458-437d-89aa-c93b611c342a)
+<img src="https://github.com/dusunax/game/assets/94776135/48f30777-d4d4-489b-ac75-c856b97a2f57" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/ae2941d4-9f06-40c9-a815-5601336a4798" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/6b4354a8-fbb1-4ec4-967f-a2d55856803f" width="400px" />
 
 ### FE 기술 스택
 ```

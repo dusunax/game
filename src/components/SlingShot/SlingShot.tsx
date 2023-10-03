@@ -145,7 +145,7 @@ export default function SlingShot() {
         )}
 
         {(level <= 0 || life <= 0 || isGameover) && (
-          <div className="w-[1060px] min-h-[600px] absolute top-16 mt-4 left-0 bg-slate-200 flex-center flex-col fade-in delay-2s">
+          <div className="w-[1060px] min-h-[600px] absolute top-32 mt-4 left-0 bg-slate-200 flex-center flex-col fade-in delay-2s">
             <Text fontSize={"3xl"}>
               {isClear ? "축하합니다!" : "송편 게임 끝!"}
             </Text>

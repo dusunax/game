@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useRef } from "react";
 import UseMatter from "./hooks/useMatter";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Tag, Text } from "@chakra-ui/react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ScreenShotButton from "../Home/ScreenShotButton";
 import { useSearchParams } from "next/navigation";
@@ -16,8 +16,10 @@ export default function SlingShot() {
     gameOver,
     gameStart,
     score,
-    count,
+    heartCount,
+    blockCount,
     finalLevel,
+    isClear,
   } = UseMatter(renderRef);
   const params = useSearchParams();
   const mode = params.get("mode");
@@ -39,7 +41,7 @@ export default function SlingShot() {
           </div>
           {!isGameover && (
             <div>
-              {score} : 하트 {count.heart}, 송편 {count.block}
+              {score} : 송편 {heartCount}, 솔잎 {blockCount}
             </div>
           )}
         </div>
@@ -77,11 +79,17 @@ export default function SlingShot() {
       {level === 0 && (
         <div className="w-[1060px] min-h-[600px] bg-slate-200 flex-center flex-col">
           <Text fontSize={"3xl"} colorScheme="facebook">
-            송편 게임 끝!
+            {isClear ? "축하합니다!" : "송편 게임 끝!"}
           </Text>
+          {isClear && <Tag colorScheme="linkedin">게임 클리어!</Tag>}
           <img src="/img/player.svg" className="animate-spin" />
 
-          <Text fontSize={"5xl"}>{"level: " + level}</Text>
+          {isClear && (
+            <Text fontSize={"2xl"} colorScheme="facebook">
+              플레이해주셔서 감사합니다 🩷
+            </Text>
+          )}
+          {/* <Text fontSize={"5xl"}>{"level: " + level}</Text> */}
           <Text fontSize={"5xl"}>{"score: " + score}</Text>
 
           <Text fontSize={"mg"} className="mt-10 animate-pulse">

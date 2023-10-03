@@ -3,7 +3,7 @@ import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
 
 export const TARGETS: GeometryContant[] = [
-  { name: "target1", radius: 30, type: "circle", level: 1, point: 500 },
+  { name: "target1", radius: 20, type: "circle", level: 1, point: 500 },
   { name: "target2", radius: 10, type: "circle", level: 2, point: 500 },
 ];
 
@@ -36,11 +36,27 @@ export const setTarget = function (x: number, y: number, level: number) {
 };
 
 function _createStand(x: number, y: number, h: number) {
-  const opt = { density: 0.0025 };
+  const opt = {
+    density: 0.0025,
+  };
 
   const bodies = [
-    Matter.Bodies.rectangle(x, y, 100, 30, opt),
-    Matter.Bodies.rectangle(x, y, 20, h, opt),
+    Matter.Bodies.rectangle(x, y, 100, 30, {
+      ...opt,
+      render: {
+        sprite: {
+          texture: `./img/plate-sm-leaves.svg`,
+        },
+      },
+    }),
+    Matter.Bodies.rectangle(x, y, 20, h, {
+      ...opt,
+      render: {
+        sprite: {
+          texture: `./img/column.svg`,
+        },
+      },
+    }),
   ];
 
   return bodies;
@@ -77,7 +93,7 @@ export const GROUNDS: Bodies[] = [
       label: "ground",
       isStatic: true,
       render: {
-        fillStyle: "#ff00ff",
+        fillStyle: "#ffdddd",
       },
     },
   },
@@ -91,7 +107,11 @@ export const GROUNDS: Bodies[] = [
     h: 20,
     option: {
       isStatic: true,
-      render: { fillStyle: "brown" },
+      render: {
+        sprite: {
+          texture: `./img/plate-lg.svg`,
+        },
+      },
     },
   },
 ];

@@ -4,7 +4,6 @@ import { MutableRefObject, useEffect, useState } from "react";
 
 import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
 import { type Bodies as BodiesType } from "@/interface/matter";
-import { useRouter } from "next/navigation";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -23,10 +22,9 @@ export default function UseMatter(
   const [life, setLife] = useState(fullLife);
   const [isGameover, setIsGameOver] = useState(false);
   const [score, setScore] = useState(0); // 점수 상태 추가
-  const [count, setCount] = useState({
-    heart: 0,
-    block: 0,
-  });
+  const [heartCount, setHeartCount] = useState(0);
+  const [blockCount, setBlockCount] = useState(0);
+  const [isClear, setIsClear] = useState(false);
 
   // ----------------------------------------------------------------
   // useEffect
@@ -96,7 +94,7 @@ export default function UseMatter(
         {
           label: "ground",
           isStatic: true,
-          render: { fillStyle: "red" },
+          render: { fillStyle: "#ffdddd" },
         }
       )
     );
@@ -152,7 +150,7 @@ export default function UseMatter(
         ) {
           // 점수를 1 증가시키고 화면에 업데이트
           setScore((prevScore) => prevScore + 15);
-          setCount({ ...count, block: count.block + 1 });
+          setBlockCount((prev) => prev + 1);
 
           const body = (bodyA.label = "object" ? bodyA : bodyB);
 
@@ -166,7 +164,7 @@ export default function UseMatter(
           setScore((prevScore) => {
             return prevScore + 500;
           });
-          setCount({ ...count, heart: count.heart + 1 });
+          setHeartCount((prev) => prev + 1);
 
           Composite.remove(engine.world, target);
           Matter.Detector.clear(detector);
@@ -266,6 +264,7 @@ export default function UseMatter(
         "\n클리어 레벨: " +
         level
     );
+    setIsClear(true);
   }
 
   return {
@@ -276,7 +275,9 @@ export default function UseMatter(
     gameOver,
     gameStart,
     score,
-    count,
+    heartCount,
+    blockCount,
     finalLevel,
+    isClear,
   };
 }

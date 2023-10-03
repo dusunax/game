@@ -5,6 +5,7 @@ import { Button, Tag, Text } from "@chakra-ui/react";
 import { BsHeartFill } from "react-icons/bs";
 import ScreenShotButton from "../Home/ScreenShotButton";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
@@ -45,8 +46,8 @@ export default function SlingShot() {
           <div className="flex items-center gap-3 text-red-500 absolute left-0 -bottom-8 translate-y-full pl-4">
             {Array(life)
               .fill("")
-              .map((e) => (
-                <BsHeartFill size={24} />
+              .map((e, idx) => (
+                <BsHeartFill size={24} key={idx} />
               ))}
           </div>
 
@@ -106,7 +107,13 @@ export default function SlingShot() {
             {isClear ? "축하합니다!" : "송편 게임 끝!"}
           </Text>
           {isClear && <Tag colorScheme="linkedin">게임 클리어!</Tag>}
-          <img src="/img/player.svg" className="animate-spin" alt="game end!" />
+          <Image
+            src={"/img/player.svg"}
+            alt="game end!"
+            className="animate-spin"
+            width={200}
+            height={200}
+          />
 
           {isClear && <Text fontSize={"2xl"}>플레이해주셔서 감사합니다 🩷</Text>}
           {/* <Text fontSize={"5xl"}>{"level: " + level}</Text> */}

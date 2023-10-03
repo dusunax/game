@@ -38,6 +38,7 @@ nextJS, typescript, matter-js, tailwindcss, chakra-ui
 ### 그 외
 - 배포: Vercel
 - SVG 이미지 드로잉: Figma
+<img src="https://github.com/dusunax/game/assets/94776135/1c2b0602-f8fd-4644-8326-017a57269f01" width="400px" />
 
 ### 레퍼런스
 > - matter-js 공식문서: https://brm.io/matter-js/

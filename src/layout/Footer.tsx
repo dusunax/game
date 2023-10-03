@@ -11,7 +11,9 @@ interface Props extends PropsWithChildren {
 
 const Footer = ({ children }: Props) => {
   return (
-    <footer className={"w-full min-h-[3rem] pt-2 bg-[#222222] text-[#dddddd]"}>
+    <footer
+      className={"w-full min-h-[3rem] pt-2 pb-4 bg-[#222222] text-[#dddddd]"}
+    >
       <ContentArea>
         {children}
 

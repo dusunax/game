@@ -16,10 +16,16 @@ export default function UseMatter(
 ) {
   let isFire = false;
   const fullLife = 3;
-  // const [level, setLevel] = useState(0);
-  const [level, setLevel] = useState(4);
+  const finalLevel = 7;
+  const [level, setLevel] = useState(0);
+  // const [level, setLevel] = useState(4);
   const [life, setLife] = useState(fullLife);
   const [isGameover, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0); // 점수 상태 추가
+  const [count, setCount] = useState({
+    heart: 0,
+    block: 0,
+  });
 
   // ----------------------------------------------------------------
   // useEffect
@@ -60,9 +66,7 @@ export default function UseMatter(
     Runner.run(runner, engine);
 
     // bodies
-    const birdsLeft = new Array(life)
-      .fill("")
-      .map(() => getBodies(BIRDS[level - 1]));
+    const birdsLeft = new Array(life).fill("").map(() => getBodies(BIRDS[0]));
 
     const grounds = GROUNDS.map((e) => getBodies(e));
     const sling = Matter.Constraint.create({
@@ -75,9 +79,9 @@ export default function UseMatter(
       length: 20,
     });
 
-    const newComposite = Matter.Composite.create();
-    const bodies = [];
-    bodies.push(
+    const groundHill = Matter.Composite.create();
+    const tempBodies = [];
+    tempBodies.push(
       Matter.Bodies.fromVertices(
         200,
         550,
@@ -88,42 +92,42 @@ export default function UseMatter(
           { x: 550, y: 0 },
           { x: 600, y: 0 },
         ],
-        { isStatic: true, render: { fillStyle: "red" } }
+        {
+          label: "ground",
+          isStatic: true,
+          render: { fillStyle: "red" },
+        }
       )
     );
-    Matter.Composite.add(newComposite, bodies);
+    Matter.Composite.add(groundHill, tempBodies);
 
-    console.log(getLevelBlock(level));
+    const target = setTarget(600, 0, level);
+    const object = getLevelBlock(level);
 
     const worldObjects = [
       ...grounds,
       birdsLeft[0],
       sling,
-      getLevelBlock(level),
-      setTarget(600, 0, level),
-      newComposite,
+      object,
+      target,
+      groundHill,
     ];
+
+    // collision & detection
+    const detector = Matter.Detector.create();
+    Matter.Detector.clear(detector);
+    Matter.Detector.setBodies(detector, [
+      ...grounds,
+      ...groundHill.bodies,
+      ...object.bodies,
+      target,
+    ]);
+
+    console.log(setTarget(600, 0, level));
 
     // mouse interaction
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
-
-    Matter.Events.on(mouseConstraint, "startdrag", (e: any) => {
-      // if (!life || birdsLeft.length === 0) {
-      //   return gameOver();
-      // }
-      console.log(e.body);
-
-      birdsLeft.map((bird) => {
-        if (e.body !== bird) {
-          console.log("새 아ㅁ");
-
-          e.preventDefault();
-        } else {
-          console.log("새");
-        }
-      });
-    });
 
     Matter.Events.on(mouseConstraint, "enddrag", (e: any) => {
       if (!life || birdsLeft.length === 0) {
@@ -142,6 +146,46 @@ export default function UseMatter(
         return;
       }
 
+      const collisions = Matter.Detector.collisions(detector); // 충돌 감지 반복
+
+      collisions.forEach((collision: any) => {
+        const { bodyA, bodyB } = collision;
+
+        if (
+          (bodyA.label === "ground" && bodyB.label === "object") ||
+          (bodyA.label === "object" && bodyB.label === "ground")
+        ) {
+          // 점수를 1 증가시키고 화면에 업데이트
+          setScore((prevScore) => prevScore + 15);
+          setCount({ ...count, block: count.block + 1 });
+
+          const body = (bodyA.label = "object" ? bodyA : bodyB);
+          console.log(body);
+
+          Composite.remove(engine.world, body);
+        }
+
+        if (
+          (bodyA.label === "ground" && bodyB.label === "target") ||
+          (bodyA.label === "target" && bodyB.label === "ground")
+        ) {
+          setScore((prevScore) => {
+            return prevScore + 500;
+          });
+          setCount({ ...count, heart: count.heart + 1 });
+          setLife((prev) => prev + 1);
+
+          Composite.remove(engine.world, target);
+          Matter.Detector.clear(detector);
+
+          if (level < finalLevel) {
+            setLevel(level + 1);
+          } else {
+            gameWin();
+          }
+        }
+      });
+
       if (isFire) {
         birdsLeft.shift();
         setLife(birdsLeft.length);
@@ -149,7 +193,6 @@ export default function UseMatter(
         const newBird = birdsLeft[0];
         if (!newBird) {
           sling.bodyB = null;
-          // Composite.remove(engine.world, sling);
         } else {
           sling.bodyB = newBird;
 
@@ -207,5 +250,32 @@ export default function UseMatter(
     setLevel(1);
   }
 
-  return { level, setLevel, life, isGameover, gameOver, gameStart };
+  function gameWin() {
+    alert("승리!");
+
+    setTimeout(() => {
+      recodeScore({ isWin: true });
+      gameOver();
+    }, 100);
+  }
+
+  function recodeScore({ isWin = false }: { isWin?: boolean }) {
+    alert(
+      "당신의 점수: " +
+        (isWin ? score + 500 : score) +
+        "\n클리어 레벨: " +
+        level
+    );
+  }
+
+  return {
+    level,
+    setLevel,
+    life,
+    isGameover,
+    gameOver,
+    gameStart,
+    score,
+    count,
+  };
 }

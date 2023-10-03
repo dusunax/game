@@ -14,7 +14,19 @@ export const BLOCK: GeometryContant[] = [
 ];
 
 export const setTarget = function (x: number, y: number, level: number) {
+  if (level === 7) {
+    return Matter.Bodies.circle(750, y, TARGETS[0].radius, {
+      label: "target",
+      render: {
+        sprite: {
+          texture: "./img/icons8-love-circled-94.png",
+        },
+      },
+    });
+  }
+
   return Matter.Bodies.circle(x, y, TARGETS[0].radius, {
+    label: "target",
     render: {
       sprite: {
         texture: "./img/icons8-love-circled-94.png",
@@ -29,8 +41,18 @@ function _createStand(x: number, y: number, h: number) {
   const bodies = [
     Matter.Bodies.rectangle(x, y, 100, 30, opt),
     Matter.Bodies.rectangle(x, y, 20, h, opt),
+  ];
+
+  return bodies;
+}
+
+function _createObject(x: number, y: number) {
+  const opt = { density: 0.0025 };
+
+  const bodies = [
     Matter.Bodies.circle(x, y - 50, 20, {
       ...opt,
+      label: "object",
       render: {
         sprite: {
           texture: "./img/bird2.svg",
@@ -49,9 +71,10 @@ export const GROUNDS: Bodies[] = [
     level: 1,
     posX: 400,
     posY: 600,
-    w: 810,
+    w: 10010,
     h: 60,
     option: {
+      label: "ground",
       isStatic: true,
       render: {
         fillStyle: "#ff00ff",
@@ -66,7 +89,10 @@ export const GROUNDS: Bodies[] = [
     posY: 450,
     w: 200,
     h: 20,
-    option: { isStatic: true, render: { fillStyle: "brown" } },
+    option: {
+      isStatic: true,
+      render: { fillStyle: "brown" },
+    },
   },
 ];
 
@@ -77,45 +103,13 @@ export const BIRDS: Bodies[] = [
     level: 1,
     posX: 150,
     posY: 200,
-    w: 20,
-    h: 20,
+    w: 30,
+    h: 30,
     option: {
-      density: 0.2,
-    },
-  },
-  {
-    name: "bird2",
-    type: "circle",
-    level: 1,
-    posX: 150,
-    posY: 200,
-    w: 10,
-    h: 10,
-  },
-  {
-    name: "bird3",
-    type: "circle",
-    level: 1,
-    posX: 150,
-    posY: 200,
-    w: 40,
-    h: 40,
-    option: {
-      density: 1,
-      frictionAir: 0.05,
-    },
-  },
-  {
-    name: "bird4",
-    type: "circle",
-    level: 1,
-    posX: 150,
-    posY: 200,
-    w: 40,
-    h: 40,
-    option: {
-      density: 1,
-      frictionAir: 0.05,
+      label: "bird",
+      density: 0.7,
+      friction: 0.05,
+      frictionAir: 0.04,
     },
   },
 ];
@@ -123,6 +117,20 @@ export const BIRDS: Bodies[] = [
 export const LEVEL_BLOCKS = [
   {
     level: 1,
+    getBlocks: (function () {
+      const newComposite = Matter.Composite.create();
+
+      const bodies = [];
+      bodies.push(..._createStand(600, 200, 90));
+      bodies.push(..._createObject(550, 400));
+      bodies.push(..._createObject(650, 400));
+
+      Matter.Composite.add(newComposite, bodies);
+      return newComposite;
+    })(),
+  },
+  {
+    level: 2,
     getBlocks: Matter.Composites.stack(
       500,
       100,
@@ -132,26 +140,7 @@ export const LEVEL_BLOCKS = [
       0,
       function (x: number, y: number) {
         return Matter.Bodies.rectangle(x, y, 20, 20, {
-          render: {
-            sprite: {
-              texture: "./img/bird2.svg",
-            },
-          },
-        });
-      }
-    ),
-  },
-  {
-    level: 2,
-    getBlocks: Matter.Composites.stack(
-      500,
-      50,
-      4,
-      15,
-      0,
-      0,
-      function (x: number, y: number) {
-        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          label: "object",
           render: {
             sprite: {
               texture: "./img/bird2.svg",
@@ -163,15 +152,16 @@ export const LEVEL_BLOCKS = [
   },
   {
     level: 3,
-    getBlocks: Matter.Composites.pyramid(
+    getBlocks: Matter.Composites.stack(
       500,
-      200,
-      10,
-      6,
+      50,
+      3,
+      15,
       0,
       0,
       function (x: number, y: number) {
         return Matter.Bodies.rectangle(x, y, 20, 20, {
+          label: "object",
           render: {
             sprite: {
               texture: "./img/bird2.svg",
@@ -183,12 +173,72 @@ export const LEVEL_BLOCKS = [
   },
   {
     level: 4,
+    getBlocks: Matter.Composites.pyramid(
+      500,
+      200,
+      10,
+      6,
+      0,
+      0,
+      function (x: number, y: number) {
+        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          label: "object",
+          stiffness: 0.2,
+          render: {
+            sprite: {
+              texture: "./img/bird2.svg",
+            },
+          },
+        });
+      }
+    ),
+  },
+  {
+    level: 5,
     getBlocks: (function () {
       const newComposite = Matter.Composite.create();
 
       const bodies = [];
       bodies.push(..._createStand(600, 200, 50));
       bodies.push(..._createStand(400, 400, 50));
+      bodies.push(..._createStand(750, 500, 50));
+
+      bodies.push(..._createObject(400, 400));
+      bodies.push(..._createObject(750, 500));
+
+      Matter.Composite.add(newComposite, bodies);
+      return newComposite;
+    })(),
+  },
+  {
+    level: 6,
+    getBlocks: Matter.Composites.stack(
+      500,
+      50,
+      4,
+      15,
+      0,
+      0,
+      function (x: number, y: number) {
+        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          label: "object",
+          density: 1,
+          stiffness: 1,
+          render: {
+            sprite: {
+              texture: "./img/bird2.svg",
+            },
+          },
+        });
+      }
+    ),
+  },
+  {
+    level: 7,
+    getBlocks: (function () {
+      const newComposite = Matter.Composite.create();
+
+      const bodies = [];
       bodies.push(..._createStand(750, 500, 50));
 
       Matter.Composite.add(newComposite, bodies);

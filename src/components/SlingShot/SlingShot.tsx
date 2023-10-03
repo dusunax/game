@@ -6,8 +6,16 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 export default function SlingShot() {
   const renderRef = useRef<HTMLDivElement | null>(null);
-  const { level, setLevel, life, isGameover, gameOver, gameStart } =
-    UseMatter(renderRef);
+  const {
+    level,
+    setLevel,
+    life,
+    isGameover,
+    gameOver,
+    gameStart,
+    score,
+    count,
+  } = UseMatter(renderRef);
 
   return (
     <div className="max-w-[800px]">
@@ -24,6 +32,9 @@ export default function SlingShot() {
 
             {life === 0 && <BsHeart />}
           </div>
+          <div>
+            {score} : 하트 {count.heart}, 송편 {count.block}
+          </div>
         </div>
         <div className="flex gap-4">
           {level === 0 && isGameover ? (
@@ -33,7 +44,7 @@ export default function SlingShot() {
           )}
           {level !== 0 &&
             !isGameover &&
-            [1, 2, 3, 4].map((e, idx) => (
+            [1, 2, 3, 4, 5, 6, 7].map((e, idx) => (
               <Button
                 key={idx}
                 onClick={() => setLevel(e)}

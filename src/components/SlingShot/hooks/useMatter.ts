@@ -16,7 +16,7 @@ export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
   let isFire = false;
-  const fullLife = 5;
+  const fullLife = 3;
   const finalLevel = 7;
   const [level, setLevel] = useState(1);
   // const [level, setLevel] = useState(4);
@@ -170,13 +170,15 @@ export default function UseMatter(
             return prevScore + 500;
           });
           setCount({ ...count, heart: count.heart + 1 });
-          setLife(life + 1);
 
           Composite.remove(engine.world, target);
           Matter.Detector.clear(detector);
 
           if (level < finalLevel) {
-            setLevel(level + 1);
+            setTimeout(() => {
+              setLevel(level + 1);
+              setLife(birdsLeft.length + 1);
+            }, 1000);
           } else {
             gameWin();
           }
@@ -185,6 +187,7 @@ export default function UseMatter(
 
       if (isFire) {
         const oldBird = birdsLeft.shift();
+        setLife(birdsLeft.length);
 
         const newBird = birdsLeft[0];
         if (!newBird) {
@@ -199,8 +202,7 @@ export default function UseMatter(
 
         setTimeout(() => {
           Composite.remove(engine.world, oldBird);
-          setLife(life - 1);
-        }, 1000);
+        }, 500);
 
         isFire = false;
       }

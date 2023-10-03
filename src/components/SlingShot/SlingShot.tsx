@@ -45,11 +45,10 @@ export default function SlingShot() {
         </div>
         <div className="flex gap-4">
           <ScreenShotButton />
-          {level === 0 && isGameover ? (
+          {mode === "dev" && level === 0 && isGameover && (
             <StartButton level={level} onClick={gameStart} />
-          ) : (
-            <EndButton level={level} onClick={gameOver} />
           )}
+          {<EndButton level={level} onClick={gameOver} />}
           {mode === "dev" &&
             level !== 0 &&
             !isGameover &&
@@ -77,11 +76,19 @@ export default function SlingShot() {
 
       {level === 0 && (
         <div className="w-[1060px] min-h-[600px] bg-slate-200 flex-center flex-col">
-          <Text fontSize={"2xl"}>송편 게임</Text>
-          <Text fontSize={"xl"}>
-            {isGameover
-              ? "score: " + score + "\n level: " + level
-              : "게임 만드는 중"}
+          <Text fontSize={"3xl"} colorScheme="facebook">
+            송편 게임 끝!
+          </Text>
+          <img src="/img/player.svg" className="animate-spin" />
+
+          <Text fontSize={"5xl"}>{"level: " + level}</Text>
+          <Text fontSize={"5xl"}>{"score: " + score}</Text>
+
+          <Text fontSize={"mg"} className="mt-10 animate-pulse">
+            게임을 다시 시작하려면 새로고침 해주세요
+          </Text>
+          <Text fontSize={"mg"} className="mt-5" colorScheme="gray">
+            (점수 계산: 송편 = 500점, 솔잎 = 15점)
           </Text>
         </div>
       )}

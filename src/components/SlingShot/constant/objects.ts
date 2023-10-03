@@ -3,7 +3,7 @@ import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
 
 export const TARGETS: GeometryContant[] = [
-  { name: "target1", radius: 20, type: "circle", level: 1, point: 500 },
+  { name: "target1", radius: 30, type: "circle", level: 1, point: 500 },
   { name: "target2", radius: 10, type: "circle", level: 2, point: 500 },
 ];
 
@@ -19,7 +19,7 @@ export const setTarget = function (x: number, y: number, level: number) {
       label: "target",
       render: {
         sprite: {
-          texture: "./img/icons8-love-circled-94.png",
+          texture: "./img/target1.svg",
         },
       },
     });
@@ -29,7 +29,7 @@ export const setTarget = function (x: number, y: number, level: number) {
     label: "target",
     render: {
       sprite: {
-        texture: "./img/icons8-love-circled-94.png",
+        texture: `./img/target${level}.svg`,
       },
     },
   });
@@ -55,7 +55,7 @@ function _createObject(x: number, y: number) {
       label: "object",
       render: {
         sprite: {
-          texture: "./img/bird2.svg",
+          texture: "./img/leaves1.svg",
         },
       },
     }),
@@ -143,7 +143,7 @@ export const LEVEL_BLOCKS = [
           label: "object",
           render: {
             sprite: {
-              texture: "./img/bird2.svg",
+              texture: "./img/leaves1.svg",
             },
           },
         });
@@ -164,7 +164,7 @@ export const LEVEL_BLOCKS = [
           label: "object",
           render: {
             sprite: {
-              texture: "./img/bird2.svg",
+              texture: "./img/leaves1.svg",
             },
           },
         });
@@ -186,7 +186,7 @@ export const LEVEL_BLOCKS = [
           stiffness: 0.2,
           render: {
             sprite: {
-              texture: "./img/bird2.svg",
+              texture: "./img/leaves1.svg",
             },
           },
         });
@@ -226,7 +226,7 @@ export const LEVEL_BLOCKS = [
           stiffness: 1,
           render: {
             sprite: {
-              texture: "./img/bird2.svg",
+              texture: "./img/leaves1.svg",
             },
           },
         });

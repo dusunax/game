@@ -199,7 +199,7 @@ export default function UseMatter(
 
         setTimeout(() => {
           Composite.remove(engine.world, oldBird);
-        }, 500);
+        }, 1000);
 
         isFire = false;
       }
@@ -225,7 +225,7 @@ export default function UseMatter(
         ...b.option,
         render: {
           sprite: {
-            texture: "./img/bird1.svg",
+            texture: "./img/player.svg",
           },
         },
       });

@@ -4,6 +4,7 @@ import { MutableRefObject, useEffect, useState } from "react";
 
 import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
 import { type Bodies as BodiesType } from "@/interface/matter";
+import { useRouter } from "next/navigation";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -15,9 +16,9 @@ export default function UseMatter(
   ref: MutableRefObject<HTMLDivElement | null>
 ) {
   let isFire = false;
-  const fullLife = 3;
+  const fullLife = 5;
   const finalLevel = 7;
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   // const [level, setLevel] = useState(4);
   const [life, setLife] = useState(fullLife);
   const [isGameover, setIsGameOver] = useState(false);
@@ -54,7 +55,7 @@ export default function UseMatter(
         background:
           "linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 255, 1))",
         wireframes: false,
-        width: 800,
+        width: 1060,
         height: 600,
       },
     });
@@ -76,7 +77,7 @@ export default function UseMatter(
       },
       bodyB: birdsLeft[0] || null,
       stiffness: 0.2,
-      length: 20,
+      length: 10,
     });
 
     const groundHill = Matter.Composite.create();
@@ -130,10 +131,6 @@ export default function UseMatter(
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
 
     Matter.Events.on(mouseConstraint, "enddrag", (e: any) => {
-      if (!life || birdsLeft.length === 0) {
-        return gameOver();
-      }
-
       birdsLeft.map((bird) => {
         if (e.body === bird) {
           isFire = true;
@@ -142,7 +139,7 @@ export default function UseMatter(
     });
 
     Matter.Events.on(engine, "afterUpdate", () => {
-      if (!life || birdsLeft.length === 0) {
+      if (!life) {
         return;
       }
 
@@ -173,7 +170,7 @@ export default function UseMatter(
             return prevScore + 500;
           });
           setCount({ ...count, heart: count.heart + 1 });
-          setLife((prev) => prev + 1);
+          setLife(life + 1);
 
           Composite.remove(engine.world, target);
           Matter.Detector.clear(detector);
@@ -187,8 +184,7 @@ export default function UseMatter(
       });
 
       if (isFire) {
-        birdsLeft.shift();
-        setLife(birdsLeft.length);
+        const oldBird = birdsLeft.shift();
 
         const newBird = birdsLeft[0];
         if (!newBird) {
@@ -200,6 +196,11 @@ export default function UseMatter(
             Composite.add(engine.world, newBird);
           }, 500);
         }
+
+        setTimeout(() => {
+          Composite.remove(engine.world, oldBird);
+          setLife(life - 1);
+        }, 1000);
 
         isFire = false;
       }

@@ -5,6 +5,7 @@ import { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import DefaultLayout from "@/layout/DefaultLayout";
 import { ChakraProvider } from "@chakra-ui/react";
+import Footer from "@/layout/Footer";
 
 export const metadata: Metadata = {
   title: "추석 게임 🧀",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className="flex-col-screen items-center">
         <ChakraProvider>
           <DefaultLayout>{children}</DefaultLayout>
+          <Footer />
         </ChakraProvider>
       </body>
     </html>

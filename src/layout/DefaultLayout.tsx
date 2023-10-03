@@ -1,5 +1,7 @@
 import { PropsWithChildren } from "react";
 import ArrowHeader from "./ArrowHeader";
+import Footer from "./Footer";
+import ContentArea from "./ContentArea";
 
 interface Props extends PropsWithChildren {
   className?: string;
@@ -12,9 +14,9 @@ export default function DefaultLayout({
   hasGoBack = false,
 }: Props) {
   return (
-    <div className={`flex-col-full w-full max-w-7xl px-16 ${className}`}>
+    <div className={`flex-col-full w-full ${className}`}>
       {hasGoBack && <ArrowHeader />}
-      <div className="flex-col-full">{children}</div>
+      <ContentArea>{children}</ContentArea>
     </div>
   );
 }

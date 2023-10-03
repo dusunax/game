@@ -109,7 +109,7 @@ export const BIRDS: Bodies[] = [
       label: "bird",
       density: 0.7,
       friction: 0.05,
-      frictionAir: 0.04,
+      frictionAir: 0.05,
     },
   },
 ];

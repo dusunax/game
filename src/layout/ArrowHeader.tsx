@@ -1,20 +1,23 @@
 "use client";
+import { PropsWithChildren } from "react";
+import { useRouter } from "next/navigation";
+
 import Header from "./Header";
 
 import { BsArrowLeft } from "react-icons/bs";
-import { useRouter } from "next/navigation";
 
-const ArrowHeader = () => {
+const ArrowHeader = ({ children }: PropsWithChildren) => {
   const router = useRouter();
 
   return (
     <Header>
       <button
-        className={"cursor-pointer flex-center h-full w-16"}
+        className={"cursor-pointer flex-center h-full w-16 -ml-10"}
         onClick={() => router.back()}
       >
         <BsArrowLeft size={30} />
       </button>
+      {children}
     </Header>
   );
 };

@@ -1,6 +1,6 @@
 # 송편 터뜨리기 게임 
 
-배포 주소: https://game-eta-navy.vercel.app/
+배포 주소: https://www.dusuna.me/
 
 ### 작업 기간: 9월 28일 ~ 10월 3일 (6일)
 
@@ -16,10 +16,8 @@
 
 ---
 
-### 현재: Readme 작성중, 개인 도메인 연결 중입니다
-- 도메인 연결
-  - vercel에서 `Valid Configuration`후 도메인 접속 시, DNS_PROBE_FINISHED_NXDOMAIN인 상태(기다려보는 중)
-  - http://www.dusuna.me/ 연결 예정 
+### 현재: Readme 작성중입니다.
+
 - readme 및 이슈 작성
   - 주제A: 게임 만들기 / matter-js를 처음 사용하며 느낀 점
   - 주제B: 공부의 방향 / 새로운 라이브러리 배우기 vs 기본 개념 공부(canvas, 2d context)

@@ -1,6 +1,6 @@
 # 송편 터뜨리기 게임 
 
-배포 주소: https://game-eta-navy.vercel.app/
+배포 주소: https://www.dusuna.me/
 
 ### 작업 기간: 9월 28일 ~ 10월 3일 (6일)
 
@@ -14,21 +14,19 @@
     - 결과 스코어 확인 or 기록
   - 프로그램 언어 및 기술 스택 자유
 
----
+### 현재: Readme 작성중입니다.
 
-### 현재: Readme 작성중, 개인 도메인 연결 중입니다
-- 도메인 연결
-  - vercel에서 `Valid Configuration`후 도메인 접속 시, DNS_PROBE_FINISHED_NXDOMAIN인 상태(기다려보는 중)
-  - http://www.dusuna.me/ 연결 예정 
 - readme 및 이슈 작성
   - 주제A: 게임 만들기 / matter-js를 처음 사용하며 느낀 점
   - 주제B: 공부의 방향 / 새로운 라이브러리 배우기 vs 기본 개념 공부(canvas, 2d context)
   - 주제C: 개발 성향 / MVP 프로젝트 만들기를 좋아하는 이유 
 
-<img src="https://github.com/dusunax/game/assets/94776135/48f30777-d4d4-489b-ac75-c856b97a2f57" width="400px" />
-<img src="https://github.com/dusunax/game/assets/94776135/ae2941d4-9f06-40c9-a815-5601336a4798" width="400px" />
-<img src="https://github.com/dusunax/game/assets/94776135/6b4354a8-fbb1-4ec4-967f-a2d55856803f" width="400px" />
-<img src="https://github.com/dusunax/game/assets/94776135/1de92656-2a06-4952-98d6-c3661d7c341c" width="400px" />
+### 스크린샷
+
+<img src="https://github.com/dusunax/game/assets/94776135/e779c2a2-2ceb-48ec-bc88-9dde66a48416" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/6bc32a30-8743-44d1-9ba9-0a20caf25dcf" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/5817a15a-6224-49aa-a464-1c95a2769c8b" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/741535f4-73fa-45c0-a806-ae105c0ee55c" width="400px" />
 
 ### FE 기술 스택
 ```

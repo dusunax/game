@@ -23,9 +23,8 @@ export default function Home() {
           />
         </Link>
         <Text fontSize={"md"}>
-          송편을 복주머니로 떨어뜨리면 다음 레벨로 넘어갑니다.
+          복 주머니를 날려서 송편을 맞춰 떨어뜨리면 다음 레벨로 넘어갑니다.
         </Text>
-        <Text fontSize={"md"}>지금 마지막 레벨은 7레벨이에요</Text>
         <div className="flex flex-col gap-4 mt-10 w-full max-w-md mx-auto">
           <Link href={"/slingshot"} className="w-full">
             <Button

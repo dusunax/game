@@ -46,7 +46,7 @@ export default function SlingShot() {
         <div>
           <div className="flex gap-2 text-xl px-1">
             <Text fontWeight={"bold"}>송편 터뜨리기:</Text>
-            <Text>복 주머니를 날려서 송편을 떨어뜨리세요!</Text>
+            <Text>복 주머니를 날려서 송편을 맞춰 떨어뜨리세요!</Text>
           </div>
           <div className="flex gap-2 text-xl px-1">
             <Text fontSize={"xs"}>

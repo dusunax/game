@@ -3,13 +3,44 @@ import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
 
 export const TARGETS: GeometryContant[] = [
-  { name: "target1", radius: 20, type: "circle", level: 1 },
-  { name: "target2", radius: 10, type: "circle", level: 2 },
+  { name: "target1", radius: 20, type: "circle", level: 1, point: 500 },
+  { name: "target2", radius: 10, type: "circle", level: 2, point: 500 },
+];
+
+export const BLOCK: GeometryContant[] = [
+  { name: "block1", size: [20, 20], type: "rectangle", level: 1, point: 25 },
+  { name: "block2", size: [40, 40], type: "rectangle", level: 1, point: 25 },
+  { name: "block3", size: [50, 50], type: "rectangle", level: 1, point: 25 },
 ];
 
 export const setTarget = function (x: number, y: number, level: number) {
-  return Matter.Bodies.circle(x, y, TARGETS[0].radius);
+  return Matter.Bodies.circle(x, y, TARGETS[0].radius, {
+    render: {
+      sprite: {
+        texture: "./img/icons8-love-circled-94.png",
+      },
+    },
+  });
 };
+
+function _createStand(x: number, y: number, h: number) {
+  const opt = { density: 0.0025 };
+
+  const bodies = [
+    Matter.Bodies.rectangle(x, y, 100, 30, opt),
+    Matter.Bodies.rectangle(x, y, 20, h, opt),
+    Matter.Bodies.circle(x, y - 50, 20, {
+      ...opt,
+      render: {
+        sprite: {
+          texture: "./img/bird2.svg",
+        },
+      },
+    }),
+  ];
+
+  return bodies;
+}
 
 export const GROUNDS: Bodies[] = [
   {
@@ -20,7 +51,12 @@ export const GROUNDS: Bodies[] = [
     posY: 600,
     w: 810,
     h: 60,
-    option: { isStatic: true, render: { fillStyle: "brown" } },
+    option: {
+      isStatic: true,
+      render: {
+        fillStyle: "#ff00ff",
+      },
+    },
   },
   {
     name: "ground",
@@ -91,11 +127,17 @@ export const LEVEL_BLOCKS = [
       500,
       100,
       1,
-      3,
+      10,
       0,
       0,
       function (x: number, y: number) {
-        return Matter.Bodies.rectangle(x, y, 20, 100);
+        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          render: {
+            sprite: {
+              texture: "./img/bird2.svg",
+            },
+          },
+        });
       }
     ),
   },
@@ -109,7 +151,13 @@ export const LEVEL_BLOCKS = [
       0,
       0,
       function (x: number, y: number) {
-        return Matter.Bodies.rectangle(x, y, 20, 20);
+        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          render: {
+            sprite: {
+              texture: "./img/bird2.svg",
+            },
+          },
+        });
       }
     ),
   },
@@ -123,7 +171,13 @@ export const LEVEL_BLOCKS = [
       0,
       0,
       function (x: number, y: number) {
-        return Matter.Bodies.rectangle(x, y, 20, 20);
+        return Matter.Bodies.rectangle(x, y, 20, 20, {
+          render: {
+            sprite: {
+              texture: "./img/bird2.svg",
+            },
+          },
+        });
       }
     ),
   },
@@ -142,21 +196,3 @@ export const LEVEL_BLOCKS = [
     })(),
   },
 ];
-
-export const BLOCK: GeometryContant[] = [
-  { name: "block1", size: [20, 20], type: "rectangle", level: 1 },
-  { name: "block2", size: [40, 40], type: "rectangle", level: 1 },
-  { name: "block3", size: [50, 50], type: "rectangle", level: 1 },
-];
-
-function _createStand(x: number, y: number, h: number) {
-  const opt = { density: 0.0025 };
-
-  const bodies = [
-    Matter.Bodies.rectangle(x, y, 100, 30, opt),
-    Matter.Bodies.rectangle(x, y, 20, h, opt),
-    Matter.Bodies.circle(x, y - 50, 20, opt),
-  ];
-
-  return bodies;
-}

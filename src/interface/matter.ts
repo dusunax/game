@@ -17,4 +17,5 @@ export interface GeometryContant {
   radius?: number;
   type: BodiesType;
   level: number;
+  point: number;
 }

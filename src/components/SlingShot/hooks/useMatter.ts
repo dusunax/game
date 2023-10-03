@@ -45,10 +45,11 @@ export default function UseMatter(
       element: ref.current,
       engine: engine,
       options: {
+        background:
+          "linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 255, 1))",
         wireframes: false,
         width: 800,
         height: 600,
-        showAngleIndicator: true,
       },
     });
 
@@ -92,6 +93,8 @@ export default function UseMatter(
     );
     Matter.Composite.add(newComposite, bodies);
 
+    console.log(getLevelBlock(level));
+
     const worldObjects = [
       ...grounds,
       birdsLeft[0],
@@ -105,10 +108,29 @@ export default function UseMatter(
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
 
-    Matter.Events.on(mouseConstraint, "enddrag", (e: any) => {
-      birdsLeft.map((bird) => {
-        if (!bird) return;
+    Matter.Events.on(mouseConstraint, "startdrag", (e: any) => {
+      // if (!life || birdsLeft.length === 0) {
+      //   return gameOver();
+      // }
+      console.log(e.body);
 
+      birdsLeft.map((bird) => {
+        if (e.body !== bird) {
+          console.log("새 아ㅁ");
+
+          e.preventDefault();
+        } else {
+          console.log("새");
+        }
+      });
+    });
+
+    Matter.Events.on(mouseConstraint, "enddrag", (e: any) => {
+      if (!life || birdsLeft.length === 0) {
+        return gameOver();
+      }
+
+      birdsLeft.map((bird) => {
         if (e.body === bird) {
           isFire = true;
         }
@@ -117,7 +139,7 @@ export default function UseMatter(
 
     Matter.Events.on(engine, "afterUpdate", () => {
       if (!life || birdsLeft.length === 0) {
-        return gameOver();
+        return;
       }
 
       if (isFire) {
@@ -155,7 +177,16 @@ export default function UseMatter(
   function getBodies(b: BodiesType) {
     let newBody;
 
-    if (b.type === "circle") {
+    if (b.name.includes("bird")) {
+      newBody = Bodies.circle(b.posX, b.posY, b.w, {
+        ...b.option,
+        render: {
+          sprite: {
+            texture: "./img/bird1.svg",
+          },
+        },
+      });
+    } else if (b.type === "circle") {
       newBody = Bodies.circle(b.posX, b.posY, b.w, b.option);
     } else {
       newBody = Bodies.rectangle(b.posX, b.posY, b.w, b.h, b.option);

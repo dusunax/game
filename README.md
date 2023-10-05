@@ -62,7 +62,7 @@ https://www.dusuna.me/slingshot?mode=dev
 | 4850 | YCS | 선착순 1등 (☕️) |
 | 4745 | KHJ |  |
 | 4580 | CRH |  |
-| 4580 | YMS |  |
+| 4580 | LMS |  |
 
 
 ### 레퍼런스

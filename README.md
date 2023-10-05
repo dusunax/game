@@ -27,7 +27,7 @@
 <img src="https://github.com/dusunax/game/assets/94776135/e779c2a2-2ceb-48ec-bc88-9dde66a48416" width="400px" />
 <img src="https://github.com/dusunax/game/assets/94776135/6bc32a30-8743-44d1-9ba9-0a20caf25dcf" width="400px" />
 <img src="https://github.com/dusunax/game/assets/94776135/5817a15a-6224-49aa-a464-1c95a2769c8b" width="400px" />
-<img src="https://github.com/dusunax/game/assets/94776135/741535f4-73fa-45c0-a806-ae105c0ee55c" width="400px" />
+<img src="https://github.com/dusunax/game/assets/94776135/662be609-96b2-4292-8638-a6a23f606309" width="400px" />
 
 ## 📌 FE 기술 스택
 ```
@@ -45,6 +45,9 @@ nextJS, typescript, matter-js, tailwindcss, chakra-ui
 
 https://github.com/dusunax/game/assets/94776135/ffdeeee2-852f-4a98-b4fa-59a8b823915f
 
+### dev mode
+https://www.dusuna.me/slingshot?mode=dev
+
 ### 점수판_231005
 
 - 집계 방식: 카카오톡 스크린샷 인증
@@ -60,6 +63,7 @@ https://github.com/dusunax/game/assets/94776135/ffdeeee2-852f-4a98-b4fa-59a8b823
 | 4745 | KHJ |  |
 | 4580 | CRH |  |
 | 4580 | YMS |  |
+
 
 ### 레퍼런스
 > - matter-js 공식문서: https://brm.io/matter-js/

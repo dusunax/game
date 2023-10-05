@@ -61,8 +61,8 @@ https://www.dusuna.me/slingshot?mode=dev
 | 5060 | KJB |  |
 | 4955 | KJB | 10/4 유저테스트 1등 (☕️) |
 | 4925 | HSM |  |
-| 4850 | YCS | 선착순 1등 (☕️) |
-| 4745 | KHJ |  |
+| 4850 | YCS |  |
+| 4745 | KHJ | 선착순 1등 (☕️) |
 | 4580 | CRH |  |
 | 4580 | LMS |  |
 

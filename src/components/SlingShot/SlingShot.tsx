@@ -160,7 +160,7 @@ export default function SlingShot() {
             />
 
             {isClear && (
-              <Text fontSize={"2xl"}>플레이해주셔서 감사합니다 🩷</Text>
+              <Text fontSize={"2xl"}>플레이해주셔서 감사합니다 💚</Text>
             )}
             {/* <Text fontSize={"5xl"}>{"level: " + level}</Text> */}
             <Text fontSize={"5xl"}>{"score: " + score}</Text>

@@ -38,7 +38,7 @@ export default function LinkCopyButton({ size = "lg" }: { size?: string }) {
         onClick={linkCopy}
         rounded={"xl"}
       >
-        {isShared ? "링크 복사 완료!" : "링크 공유하기 🩷"}
+        {isShared ? "링크 복사 완료!" : "링크 공유하기 💚"}
       </Button>
     </>
   );

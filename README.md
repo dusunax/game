@@ -20,9 +20,10 @@
 ### 현재: Readme 작성중입니다.
 
 - readme 및 이슈 작성
-  - 주제A: 게임 만들기 / matter-js를 처음 사용하며 느낀 점
-  - 주제B: 공부의 방향 / 새로운 라이브러리 배우기 vs 기본 개념 공부(canvas, 2d context)
-  - 주제C: 개발 성향 / MVP 프로젝트 만들기를 좋아하는 이유 
+  -[x] [주제A: 날짜별 프로젝트 진행 / 기능 구현 기록](https://github.com/dusunax/game/issues/2)
+  -[ ] 주제B: 게임 만들기 / matter-js를 처음 사용하며 느낀 점
+  -[ ] 주제C: 공부의 방향 / 새로운 라이브러리 배우기 vs 기본 개념 공부(canvas, 2d context)
+  -[ ] 주제D: 개발 성향 / MVP 프로젝트 만들기를 좋아하는 이유 
 
 ## 📌 스크린샷
 

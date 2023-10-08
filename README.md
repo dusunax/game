@@ -1,6 +1,9 @@
-# 송편 터뜨리기 게임 
+# 🌕 송편 터뜨리기 게임 🌕 
 
-배포 주소: https://www.dusuna.me/
+송편 터뜨리러 가기: https://www.dusuna.me/ (배포 주소)  
+코육대 참여 후기: [https://velog.io/@dusunax/후기-코육대-짧은-소감](https://velog.io/@dusunax/%ED%9B%84%EA%B8%B0-%EC%BD%94%EC%9C%A1%EB%8C%80-%EC%A7%A7%EC%9D%80-%EC%86%8C%EA%B0%90)  
+작업 기록: [[9월 28일~10월 3일] 날짜별 작업 기록](https://github.com/dusunax/game/issues/2)
+
 
 ## 📌 개요
 
@@ -16,14 +19,6 @@
     - 슬링샷 게임 기능 구현
     - 결과 스코어 확인 or 기록
   - 프로그램 언어 및 기술 스택 자유
-
-### 현재: Readme 작성중입니다.
-
-- readme 및 이슈 작성
-  - [x] [주제A: 날짜별 프로젝트 진행 / 기능 구현 기록](https://github.com/dusunax/game/issues/2)  
-  - [ ] 주제B: 게임 만들기 / matter-js를 처음 사용하며 느낀 점  
-  - [ ] 주제C: 공부의 방향 / 새로운 라이브러리 배우기 vs 기본 개념 공부(canvas, 2d context)  
-  - [ ] 주제D: 개발 성향 / MVP 프로젝트 만들기를 좋아하는 이유   
 
 ## 📌 스크린샷
 

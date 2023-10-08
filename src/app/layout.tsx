@@ -8,7 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Footer from "@/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "추석 게임 🧀",
+  title: "송편 터뜨리기",
   description: "추석을 함께할 게임",
 };
 

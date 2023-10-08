@@ -13,7 +13,7 @@ export default function Home() {
         boxShadow={"none"}
         className="gap-4 h-full justify-center items-center"
       >
-        <Tag colorScheme="linkedin">2023년 추석을 맞이 웹게임</Tag>
+        <Tag colorScheme="linkedin">2023년 추석 맞이 웹게임</Tag>
         <Text fontSize={"5xl"}>송편 터뜨리기 게임</Text>
         <Link href={"/slingshot"} className="w-full">
           <img
@@ -23,7 +23,7 @@ export default function Home() {
           />
         </Link>
         <Text fontSize={"md"}>
-          복 주머니를 날려서 송편을 맞춰 떨어뜨리면 다음 레벨로 넘어갑니다.
+          복주머니를 날려서 송편을 맞춰 떨어뜨리면 다음 레벨로 넘어갑니다.
         </Text>
         <div className="flex flex-col gap-4 mt-10 w-full max-w-md mx-auto">
           <Link href={"/slingshot"} className="w-full">
@@ -40,7 +40,7 @@ export default function Home() {
           <LinkCopyButton />
           <Text fontSize={"sm"}>
             구글 chrome 브라우저 사용을 권장하며, 모바일 최적화 되어있지
-            않습니다
+            않습니다🥹
           </Text>
         </div>
       </Card>

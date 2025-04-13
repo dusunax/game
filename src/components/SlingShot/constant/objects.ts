@@ -1,6 +1,6 @@
-// @ts-ignore
 import Matter from "matter-js";
 import { Bodies, GeometryContant } from "@/interface/matter";
+import { renderSprite } from "../utils/renderOption";
 
 export const TARGETS: GeometryContant[] = [
   { name: "target1", radius: 20, type: "circle", level: 1, point: 500 },
@@ -15,23 +15,15 @@ export const BLOCK: GeometryContant[] = [
 
 export const setTarget = function (x: number, y: number, level: number) {
   if (level === 7) {
-    return Matter.Bodies.circle(750, y, TARGETS[0].radius, {
+    return Matter.Bodies.circle(750, y, TARGETS[0].radius || 0, {
       label: "target",
-      render: {
-        sprite: {
-          texture: "./img/target1.svg",
-        },
-      },
+      render: renderSprite("./img/target1.svg"),
     });
   }
 
-  return Matter.Bodies.circle(x, y, TARGETS[0].radius, {
+  return Matter.Bodies.circle(x, y, TARGETS[0].radius || 0, {
     label: "target",
-    render: {
-      sprite: {
-        texture: `./img/target${level}.svg`,
-      },
-    },
+    render: renderSprite(`./img/target${level}.svg`),
   });
 };
 
@@ -43,19 +35,11 @@ function _createStand(x: number, y: number, h: number) {
   const bodies = [
     Matter.Bodies.rectangle(x, y, 100, 30, {
       ...opt,
-      render: {
-        sprite: {
-          texture: `./img/plate-sm-leaves.svg`,
-        },
-      },
+      render: renderSprite("./img/plate-sm-leaves.svg"),
     }),
     Matter.Bodies.rectangle(x, y, 20, h, {
       ...opt,
-      render: {
-        sprite: {
-          texture: `./img/column.svg`,
-        },
-      },
+      render: renderSprite("./img/column.svg"),
     }),
   ];
 
@@ -69,11 +53,7 @@ function _createObject(x: number, y: number) {
     Matter.Bodies.circle(x, y - 50, 20, {
       ...opt,
       label: "object",
-      render: {
-        sprite: {
-          texture: "./img/leaves1.svg",
-        },
-      },
+      render: renderSprite("./img/leaves1.svg"),
     }),
   ];
 
@@ -161,11 +141,7 @@ export const LEVEL_BLOCKS = [
       function (x: number, y: number) {
         return Matter.Bodies.rectangle(x, y, 20, 20, {
           label: "object",
-          render: {
-            sprite: {
-              texture: "./img/leaves1.svg",
-            },
-          },
+          render: renderSprite("./img/leaves1.svg"),
         });
       }
     ),
@@ -182,11 +158,7 @@ export const LEVEL_BLOCKS = [
       function (x: number, y: number) {
         return Matter.Bodies.rectangle(x, y, 20, 20, {
           label: "object",
-          render: {
-            sprite: {
-              texture: "./img/leaves1.svg",
-            },
-          },
+          render: renderSprite("./img/leaves1.svg"),
         });
       }
     ),
@@ -203,12 +175,7 @@ export const LEVEL_BLOCKS = [
       function (x: number, y: number) {
         return Matter.Bodies.rectangle(x, y, 20, 20, {
           label: "object",
-          stiffness: 0.2,
-          render: {
-            sprite: {
-              texture: "./img/leaves1.svg",
-            },
-          },
+          render: renderSprite("./img/leaves1.svg"),
         });
       }
     ),
@@ -243,12 +210,7 @@ export const LEVEL_BLOCKS = [
         return Matter.Bodies.rectangle(x, y, 20, 20, {
           label: "object",
           density: 1,
-          stiffness: 1,
-          render: {
-            sprite: {
-              texture: "./img/leaves1.svg",
-            },
-          },
+          render: renderSprite("./img/leaves1.svg"),
         });
       }
     ),

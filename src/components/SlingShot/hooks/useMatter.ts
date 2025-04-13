@@ -1,9 +1,9 @@
-// @ts-ignore
-import Matter from "matter-js";
+import Matter, { Vector } from "matter-js";
 import { MutableRefObject, useEffect, useState } from "react";
 
 import { BIRDS, GROUNDS, LEVEL_BLOCKS, setTarget } from "../constant/objects";
 import { type Bodies as BodiesType } from "@/interface/matter";
+import { renderSprite } from "../utils/renderOption";
 
 const Engine = Matter.Engine,
   Render = Matter.Render,
@@ -18,23 +18,23 @@ export default function UseMatter(
   const fullLife = 3;
   const finalLevel = 7;
   const [level, setLevel] = useState(1);
-  // const [level, setLevel] = useState(4);
   const [life, setLife] = useState(fullLife);
   const [isGameover, setIsGameOver] = useState(false);
-  const [score, setScore] = useState(0); // 점수 상태 추가
+  const [score, setScore] = useState(0);
   const [heartCount, setHeartCount] = useState(0);
   const [blockCount, setBlockCount] = useState(0);
   const [isClear, setIsClear] = useState(false);
 
   // ----------------------------------------------------------------
-  // useEffect
+  // 게임 초기화
   // ----------------------------------------------------------------
   useEffect(() => {
     if (!level || !life) {
       return gameEnd();
     }
 
-    // ref 초기화
+    // init ref
+    if (!ref.current) return;
     const element = ref.current as HTMLDivElement;
     while (element && element.firstChild) {
       element.removeChild(element.firstChild);
@@ -64,7 +64,7 @@ export default function UseMatter(
     const runner = Runner.create();
     Runner.run(runner, engine);
 
-    // bodies
+    // bodies 설정
     const birdsLeft = new Array(life).fill("").map(() => getBodies(BIRDS[0]));
 
     const grounds = GROUNDS.map((e) => getBodies(e));
@@ -78,9 +78,9 @@ export default function UseMatter(
       length: 10,
     });
 
-    const groundHill = Matter.Composite.create();
-    const tempBodies = [];
-    tempBodies.push(
+    const groundCompsite = Matter.Composite.create();
+    const groundBodies = [];
+    groundBodies.push(
       Matter.Bodies.fromVertices(
         200,
         550,
@@ -90,7 +90,7 @@ export default function UseMatter(
           { x: 500, y: -50 },
           { x: 550, y: 0 },
           { x: 600, y: 0 },
-        ],
+        ] as unknown as Vector[][],
         {
           label: "ground",
           isStatic: true,
@@ -98,7 +98,7 @@ export default function UseMatter(
         }
       )
     );
-    Matter.Composite.add(groundHill, tempBodies);
+    Matter.Composite.add(groundCompsite, groundBodies);
 
     const target = setTarget(600, 0, level);
     const object = getLevelBlock(level);
@@ -109,20 +109,20 @@ export default function UseMatter(
       sling,
       object,
       target,
-      groundHill,
+      groundCompsite,
     ];
 
-    // collision & detection
+    // collision & detection 설정
     const detector = Matter.Detector.create();
     Matter.Detector.clear(detector);
     Matter.Detector.setBodies(detector, [
       ...grounds,
-      ...groundHill.bodies,
+      ...groundCompsite.bodies,
       ...object.bodies,
       target,
     ]);
 
-    // mouse interaction
+    // mouse interaction 설정
     const mouse = Matter.Mouse.create(ref.current);
     const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
 
@@ -137,14 +137,13 @@ export default function UseMatter(
     Matter.Events.on(engine, "afterUpdate", () => {
       if (birdsLeft.length === 0 && life === -1) {
         setTimeout(() => {
-          console.log(birdsLeft);
           if (birdsLeft) return;
 
           return gameEnd();
         }, 2000);
       }
 
-      const collisions = Matter.Detector.collisions(detector); // 충돌 감지 반복
+      const collisions = Matter.Detector.collisions(detector); // 충돌 감지
 
       collisions.forEach((collision: any) => {
         const { bodyA, bodyB } = collision;
@@ -162,6 +161,9 @@ export default function UseMatter(
           Composite.remove(engine.world, body);
         }
 
+        // 레벨 증가
+        // - 바닥과 타겟 충돌 시 점수 500 증가
+        // - 타겟 충돌 시 라이프 1 증가
         if (
           (bodyA.label === "ground" && bodyB.label === "target") ||
           (bodyA.label === "target" && bodyB.label === "ground")
@@ -174,6 +176,7 @@ export default function UseMatter(
           Composite.remove(engine.world, target);
           Matter.Detector.clear(detector);
 
+          // 레벨 종료
           if (level < finalLevel) {
             setTimeout(() => {
               setLevel(level + 1);
@@ -204,20 +207,21 @@ export default function UseMatter(
         }
 
         setTimeout(() => {
-          Composite.remove(engine.world, oldBird);
+          if (oldBird) {
+            Composite.remove(engine.world, oldBird);
+          }
         }, 1000);
 
         isFire = false;
       }
     });
 
-    // composite.add === world.add
     Composite.add(engine.world, worldObjects);
     Composite.add(engine.world, mouseConstraint);
   }, [level]);
 
   // ----------------------------------------------------------------
-  // 이벤트 핸들러 여기 작성
+  // 이벤트 핸들러
   // ----------------------------------------------------------------
   const getLevelBlock = (level: number) => {
     return LEVEL_BLOCKS.filter((e) => e.level === level)[0].getBlocks;
@@ -229,11 +233,7 @@ export default function UseMatter(
     if (b.name.includes("bird")) {
       newBody = Bodies.circle(b.posX, b.posY, b.w, {
         ...b.option,
-        render: {
-          sprite: {
-            texture: "./img/player.svg",
-          },
-        },
+        render: renderSprite("./img/player.svg"),
       });
     } else if (b.type === "circle") {
       newBody = Bodies.circle(b.posX, b.posY, b.w, b.option);

@@ -6,7 +6,8 @@ import { useState } from "react";
 export default function ScreenShotButton({ size = "md" }: { size?: string }) {
   const [isShared, setIsShared] = useState(false);
   const toast = useToast();
-  const bodyEl = document.querySelector("body") as HTMLElement;
+
+  const bodyEl = document && (document.querySelector("body") as HTMLElement);
 
   const saveScreenshot = () => {
     if (!bodyEl) return;
